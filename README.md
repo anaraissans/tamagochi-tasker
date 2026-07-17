@@ -10,7 +10,7 @@ Abra o arquivo `index.html` no navegador (duplo clique).
 
 O site é publicado automaticamente pelo GitHub Actions ao fazer push na branch `main`.
 
-URL do site: `https://SEU-USUARIO.github.io/tamagochi-tasker/`
+URL: `https://anaraissans.github.io/tamagochi-tasker/`
 
 ## Estrutura
 
