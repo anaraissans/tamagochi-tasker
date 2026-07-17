@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>Tamagochi Tasker</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap"
+        rel="stylesheet"
+    >
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="cabecalho">
+        <h1>Tamagochi Tasker</h1>
+        <p>Cuide do seu companheiro completando tarefas do dia a dia</p>
+        <button
+            type="button"
+            id="botao-som"
+            class="btn-som"
+            aria-pressed="true"
+            title="Desativar sons"
+        >
+            🔊 Som
+        </button>
+    </header>
+
+    <div class="container">
+        <div class="grid-principal">
+            <section class="cartao cartao-tamagochi">
+                <h2>Meu Tamagochi</h2>
+
+                <div id="personagem">🥚</div>
+
+                <h3 id="nome-estado">Neutro</h3>
+
+                <p id="mensagem-estado">
+                    Seu Tamagochi está aguardando suas ações.
+                </p>
+
+                <div class="personagem-info">
+                    <div class="personagem-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Nível</span>
+                            <strong id="valor-nivel">1</strong>
+                        </div>
+
+                        <div class="stat-item">
+                            <span class="stat-label">Dias vividos</span>
+                            <strong id="valor-dias-vividos">0</strong>
+                        </div>
+
+                        <div class="stat-item">
+                            <span class="stat-label">Fase</span>
+                            <strong id="valor-fase">Ovo</strong>
+                        </div>
+
+                        <div class="stat-item">
+                            <span class="stat-label">Evolução</span>
+                            <strong id="valor-evolucao">Ovo</strong>
+                        </div>
+                    </div>
+
+                    <div class="indicador indicador--xp">
+                        <p>
+                            Experiência:
+                            <strong id="valor-experiencia">0</strong>
+                            /
+                            <strong id="valor-experiencia-proximo-nivel">100</strong>
+                        </p>
+                        <progress
+                            id="barra-experiencia"
+                            value="0"
+                            max="100"
+                        ></progress>
+                        <small id="valor-experiencia-total">Total: 0 XP</small>
+                    </div>
+                </div>
+
+                <div class="indicadores">
+                    <div class="indicador">
+                        <p>
+                            Satisfação:
+                            <strong id="valor-satisfacao">50</strong>
+                        </p>
+                        <progress
+                            id="barra-satisfacao"
+                            value="50"
+                            max="100"
+                        ></progress>
+                    </div>
+
+                    <div class="indicador">
+                        <p>
+                            Energia:
+                            <strong id="valor-energia">70</strong>
+                        </p>
+                        <progress
+                            id="barra-energia"
+                            value="70"
+                            max="100"
+                        ></progress>
+                    </div>
+
+                    <div class="indicador">
+                        <p>
+                            Estresse:
+                            <strong id="valor-estresse">20</strong>
+                        </p>
+                        <progress
+                            id="barra-estresse"
+                            value="20"
+                            max="100"
+                        ></progress>
+                    </div>
+
+                    <div class="indicador">
+                        <p>
+                            Tédio:
+                            <strong id="valor-tedio">40</strong>
+                        </p>
+                        <progress
+                            id="barra-tedio"
+                            value="40"
+                            max="100"
+                        ></progress>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cartao">
+                <h2>Adicionar tarefa</h2>
+
+                <form id="form-tarefa">
+                    <div class="campo">
+                        <label for="nome-tarefa">Nome da tarefa</label>
+                        <input
+                            type="text"
+                            id="nome-tarefa"
+                            placeholder="Ex.: Estudar JavaScript"
+                            required
+                        >
+                    </div>
+
+                    <div class="campo">
+                        <label for="tipo-tarefa">Tipo</label>
+                        <select id="tipo-tarefa" required>
+                            <option value="">Selecione</option>
+                            <option value="trabalho">Trabalho</option>
+                            <option value="lazer">Lazer</option>
+                            <option value="saude">Saúde</option>
+                            <option value="estudo">Estudo</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="data-tarefa">Data</label>
+                        <input
+                            type="date"
+                            id="data-tarefa"
+                            required
+                        >
+                    </div>
+
+                    <div class="campo">
+                        <label for="dificuldade-tarefa">Dificuldade</label>
+                        <select id="dificuldade-tarefa" required>
+                            <option value="">Selecione</option>
+                            <option value="facil">Fácil</option>
+                            <option value="media">Média</option>
+                            <option value="dificil">Difícil</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn-primario">
+                        Adicionar tarefa
+                    </button>
+                </form>
+            </section>
+        </div>
+
+        <section class="cartao cartao-largo">
+            <h2>Tarefas de hoje</h2>
+
+            <ul id="lista-tarefas" class="lista-tarefas">
+                <li class="lista-vazia">Nenhuma tarefa cadastrada.</li>
+            </ul>
+        </section>
+
+        <div class="grid-inferior">
+            <section class="cartao">
+                <h2>Resumo do dia</h2>
+
+                <div class="resumo-grid">
+                    <div class="resumo-item">
+                        <span>Total</span>
+                        <strong id="total-tarefas">0</strong>
+                    </div>
+
+                    <div class="resumo-item">
+                        <span>Concluídas</span>
+                        <strong id="tarefas-concluidas">0</strong>
+                    </div>
+
+                    <div class="resumo-item">
+                        <span>Pontos planejados</span>
+                        <strong id="pontos-planejados">0</strong>
+                    </div>
+
+                    <div class="resumo-item">
+                        <span>Pontos conquistados</span>
+                        <strong id="pontos-conquistados">0</strong>
+                    </div>
+
+                    <div class="resumo-item resumo-item--destaque">
+                        <span>Progresso</span>
+                        <strong id="percentual-conclusao">0%</strong>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cartao">
+                <h2>Fechamento do dia</h2>
+
+                <p class="texto-ajuda">
+                    Ao fechar o dia, o resultado atual será salvo no histórico.
+                    Às 23h59, o fechamento é automático e tarefas pendentes
+                    entram como não concluídas, sem contabilizar pontos.
+                </p>
+
+                <button
+                    type="button"
+                    id="botao-fechar-dia"
+                    class="btn-fechar-dia"
+                >
+                    Fechar dia
+                </button>
+            </section>
+
+            <section class="cartao">
+                <h2>Histórico diário</h2>
+
+                <ul id="lista-historico" class="lista-historico">
+                    <li class="lista-vazia">Nenhum dia encerrado.</li>
+                </ul>
+            </section>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/dom.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/personagem.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/tamagochi.js"></script>
+    <script src="js/som.js"></script>
+    <script src="js/tarefas.js"></script>
+    <script src="js/historico.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

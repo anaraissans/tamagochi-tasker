@@ -1,0 +1,689 @@
+/* ===== Variáveis — paleta analógica / LCD ===== */
+:root {
+    /* Plástico do "aparelho" */
+    --plastico-claro: #E0D0E8;
+    --plastico-medio: #C0A8D0;
+    --plastico-escuro: #F5D0D8;
+    --plastico-sombra: #9880A8;
+
+    /* Tela LCD verde (estilo Tamagotchi) */
+    --lcd-fundo: #18395A;
+    --lcd-fundo-escuro: #78C8B8;
+    --lcd-pixel: #FFFFFF;
+    --lcd-brilho:  #78C8B8;
+
+    /* Acentos retrô */
+    --retro-rosa: #e87898;
+    --retro-rosa-escuro: #c05878;
+    --retro-amarelo: #f8d878;
+    --retro-laranja: #e89050;
+    --retro-vermelho: #d84848;
+    --retro-azul: #5898c8;
+
+    /* Barras de status (tons sólidos, sem gradiente) */
+    --barra-satisfacao: #f0c030;
+    --barra-energia: #58a848;
+    --barra-estresse: #d84848;
+    --barra-tedio: #7878b8;
+
+    /* Tipografia retrogaming */
+    --fonte-pixel: "Press Start 2P", monospace;
+    --fonte-lcd: "VT323", monospace;
+
+    /* Bordas quadradas — sem cantos arredondados modernos */
+    --borda-grossa: 4px;
+    --borda-fina: 2px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    image-rendering: pixelated;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--fonte-lcd);
+    font-size: 1.35rem;
+    line-height: 1.4;
+    color: var(--lcd-pixel);
+    background-color: var(--plastico-medio);
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(0, 0, 0, 0.03) 3px,
+            rgba(0, 0, 0, 0.03) 4px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 3px,
+            rgba(0, 0, 0, 0.03) 3px,
+            rgba(0, 0, 0, 0.03) 4px
+        );
+}
+
+/* Scanlines sutis sobre toda a página */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.04) 2px,
+        rgba(0, 0, 0, 0.04) 4px
+    );
+}
+
+/* ===== Cabeçalho ===== */
+.cabecalho {
+    text-align: center;
+    padding: 2rem 1rem 1.25rem;
+    border-bottom: var(--borda-grossa) solid var(--plastico-sombra);
+    background: var(--plastico-claro);
+    box-shadow: 0 4px 0 var(--plastico-sombra);
+}
+
+.cabecalho h1 {
+    margin: 0;
+    font-family: var(--fonte-pixel);
+    font-size: clamp(0.75rem, 2.5vw, 1.1rem);
+    font-weight: 400;
+    color: var(--retro-rosa-escuro);
+    line-height: 1.8;
+    text-shadow:
+        2px 2px 0 var(--plastico-sombra),
+        -1px -1px 0 var(--retro-amarelo);
+    letter-spacing: 0.05em;
+}
+
+.cabecalho p {
+    margin: 0.75rem 0 0;
+    font-size: 1.4rem;
+    color: var(--lcd-pixel);
+    opacity: 0.85;
+}
+
+.btn-som {
+    margin-top: 0.85rem;
+    padding: 0.45rem 0.75rem;
+    font-family: var(--fonte-pixel);
+    font-size: 0.38rem;
+    line-height: 1.6;
+    color: var(--lcd-pixel);
+    background: var(--lcd-brilho);
+    border: var(--borda-fina) solid var(--plastico-sombra);
+    box-shadow: 2px 2px 0 var(--plastico-sombra);
+    cursor: pointer;
+}
+
+.btn-som:hover {
+    background: var(--lcd-fundo);
+}
+
+.btn-som:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+/* ===== Layout principal ===== */
+.container {
+    width: min(1100px, 94vw);
+    margin: 0 auto;
+    padding: 1.5rem 0 3rem;
+}
+
+.grid-principal {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.grid-inferior {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+/* ===== Cartões — painéis do "console" ===== */
+.cartao {
+    background: var(--plastico-claro);
+    border: var(--borda-grossa) solid var(--plastico-sombra);
+    padding: 1.25rem;
+    box-shadow:
+        inset 0 0 0 var(--borda-fina) var(--plastico-medio),
+        4px 4px 0 var(--plastico-sombra);
+}
+
+.cartao h2 {
+    margin: 0 0 1rem;
+    padding-bottom: 0.6rem;
+    font-family: var(--fonte-pixel);
+    font-size: 0.62rem;
+    font-weight: 400;
+    color: var(--lcd-pixel);
+    line-height: 1.6;
+    border-bottom: var(--borda-fina) dashed var(--plastico-escuro);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cartao h2::before {
+    content: "▶";
+    font-size: 0.5rem;
+    color: var(--retro-rosa);
+}
+
+.cartao-largo {
+    grid-column: 1 / -1;
+}
+
+/* ===== Tamagochi — tela LCD ===== */
+.cartao-tamagochi {
+    text-align: center;
+    background: var(--plastico-claro);
+}
+
+/* Moldura interna simulando visor LCD */
+.cartao-tamagochi > #personagem,
+.cartao-tamagochi > #nome-estado,
+.cartao-tamagochi > #mensagem-estado {
+    position: relative;
+}
+
+.cartao-tamagochi::before {
+    content: none;
+}
+
+#personagem {
+    font-size: clamp(3.5rem, 9vw, 5rem);
+    line-height: 1;
+    margin: 0;
+    padding: 1.25rem 1rem 0.75rem;
+    display: block;
+    background: var(--lcd-fundo);
+    border: var(--borda-grossa) inset var(--lcd-fundo-escuro);
+    box-shadow:
+        inset 2px 2px 8px rgba(0, 0, 0, 0.15),
+        inset -1px -1px 0 var(--lcd-brilho);
+    animation: piscar-lcd 4s step-end infinite;
+    image-rendering: pixelated;
+}
+
+@keyframes piscar-lcd {
+    0%, 97%, 100% { opacity: 1; }
+    98% { opacity: 0.92; }
+}
+
+@keyframes flutuar-pixel {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+}
+
+#nome-estado {
+    margin: 0.75rem 0 0.25rem;
+    padding: 0.4rem 0.6rem;
+    font-family: var(--fonte-pixel);
+    font-size: 0.55rem;
+    font-weight: 400;
+    color: var(--lcd-pixel);
+    background: var(--lcd-fundo);
+    border: var(--borda-fina) solid var(--lcd-fundo-escuro);
+    line-height: 1.6;
+}
+
+#mensagem-estado {
+    margin: 0 0 1rem;
+    padding: 0.5rem;
+    font-size: 1.25rem;
+    color: var(--lcd-pixel);
+    background: var(--lcd-fundo);
+    border: var(--borda-fina) solid var(--lcd-fundo-escuro);
+    opacity: 0.9;
+}
+
+.personagem-info {
+    margin-bottom: 1.25rem;
+    padding: 0.75rem;
+    background: var(--lcd-fundo);
+    border: var(--borda-fina) solid var(--lcd-fundo-escuro);
+    text-align: left;
+    box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.personagem-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.stat-item {
+    padding: 0.5rem;
+    background: var(--lcd-brilho);
+    border: var(--borda-fina) solid var(--lcd-fundo-escuro);
+    text-align: center;
+}
+
+.stat-label {
+    display: block;
+    font-family: var(--fonte-pixel);
+    font-size: 0.38rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: var(--lcd-pixel);
+    margin-bottom: 0.35rem;
+    line-height: 1.5;
+    opacity: 0.8;
+}
+
+.stat-item strong {
+    font-family: var(--fonte-lcd);
+    font-size: 1.5rem;
+    color: var(--lcd-pixel);
+}
+
+.indicador--xp {
+    margin-bottom: 0;
+}
+
+.indicador--xp small {
+    grid-column: 1 / -1;
+    font-size: 1.1rem;
+    color: var(--lcd-pixel);
+    opacity: 0.75;
+}
+
+.indicadores {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: left;
+    padding: 0.75rem;
+    background: var(--lcd-fundo);
+    border: var(--borda-fina) solid var(--lcd-fundo-escuro);
+    box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.indicador {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 0.2rem 0.5rem;
+    align-items: center;
+}
+
+.indicador p {
+    margin: 0;
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 1.2rem;
+    color: var(--lcd-pixel);
+}
+
+.indicador strong {
+    font-family: var(--fonte-lcd);
+    font-size: 1.35rem;
+    color: var(--lcd-pixel);
+}
+
+.indicador progress {
+    grid-column: 1 / -1;
+    grid-row: 2;
+}
+
+/* Barras de progresso — estilo segmentado LCD */
+progress {
+    width: 100%;
+    height: 14px;
+    border: var(--borda-fina) solid var(--lcd-fundo-escuro);
+    overflow: hidden;
+    background: var(--lcd-brilho);
+    appearance: none;
+    -webkit-appearance: none;
+    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+progress::-webkit-progress-bar {
+    background: var(--lcd-brilho);
+}
+
+progress::-webkit-progress-value {
+    transition: width 0.3s step-end;
+    image-rendering: pixelated;
+}
+
+progress::-moz-progress-bar {
+    transition: width 0.3s step-end;
+}
+
+#barra-satisfacao::-webkit-progress-value { background: var(--barra-satisfacao); }
+#barra-satisfacao::-moz-progress-bar { background: var(--barra-satisfacao); }
+
+#barra-energia::-webkit-progress-value { background: var(--barra-energia); }
+#barra-energia::-moz-progress-bar { background: var(--barra-energia); }
+
+#barra-estresse::-webkit-progress-value { background: var(--barra-estresse); }
+#barra-estresse::-moz-progress-bar { background: var(--barra-estresse); }
+
+#barra-tedio::-webkit-progress-value { background: var(--barra-tedio); }
+#barra-tedio::-moz-progress-bar { background: var(--barra-tedio); }
+
+#barra-experiencia::-webkit-progress-value { background: var(--retro-azul); }
+#barra-experiencia::-moz-progress-bar { background: var(--retro-azul); }
+
+/* ===== Formulário — painel de controle ===== */
+#form-tarefa {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.campo label {
+    font-family: var(--fonte-pixel);
+    font-size: 0.42rem;
+    font-weight: 400;
+    color: var(--lcd-pixel);
+    text-transform: uppercase;
+    line-height: 1.5;
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+    padding: 0.55rem 0.75rem;
+    font-family: var(--fonte-lcd);
+    font-size: 1.25rem;
+    color: var(--lcd-pixel);
+    background: var(--lcd-brilho);
+    border: var(--borda-fina) solid var(--plastico-sombra);
+    box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.08);
+    transition: none;
+}
+
+.campo input:focus,
+.campo select:focus {
+    outline: none;
+    border-color: var(--retro-rosa);
+    background: var(--lcd-fundo);
+    box-shadow:
+        inset 2px 2px 0 rgba(0, 0, 0, 0.08),
+        0 0 0 2px var(--retro-amarelo);
+}
+
+.campo input::placeholder {
+    color: var(--lcd-fundo-escuro);
+    opacity: 0.7;
+}
+
+/* ===== Botões — estilo físico / arcade ===== */
+button {
+    font-family: var(--fonte-pixel);
+    font-size: 0.45rem;
+    font-weight: 400;
+    cursor: pointer;
+    line-height: 1.6;
+    border: var(--borda-fina) solid var(--plastico-sombra);
+    transition: transform 0.05s step-end, box-shadow 0.05s step-end;
+}
+
+button:active {
+    transform: translate(2px, 2px);
+    box-shadow: none !important;
+}
+
+.btn-primario {
+    padding: 0.85rem 1rem;
+    color: var(--plastico-claro);
+    background: var(--retro-rosa);
+    box-shadow: 3px 3px 0 var(--retro-rosa-escuro);
+    margin-top: 0.25rem;
+}
+
+.btn-primario:hover {
+    background: var(--retro-rosa-escuro);
+}
+
+.btn-secundario {
+    padding: 0.6rem 0.85rem;
+    color: var(--lcd-pixel);
+    background: var(--lcd-brilho);
+    box-shadow: 2px 2px 0 var(--lcd-fundo-escuro);
+}
+
+.btn-secundario:hover {
+    background: var(--lcd-fundo);
+}
+
+.btn-perigo {
+    padding: 0.6rem 0.85rem;
+    color: var(--plastico-claro);
+    background: var(--retro-vermelho);
+    box-shadow: 2px 2px 0 #a03030;
+}
+
+.btn-perigo:hover {
+    background: #c03838;
+}
+
+.btn-fechar-dia {
+    width: 100%;
+    padding: 0.85rem;
+    color: var(--lcd-pixel);
+    background: var(--retro-amarelo);
+    box-shadow: 3px 3px 0 var(--retro-laranja);
+}
+
+.btn-fechar-dia:hover {
+    background: var(--retro-laranja);
+    color: var(--plastico-claro);
+}
+
+/* ===== Listas ===== */
+.lista-tarefas,
+.lista-historico {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.lista-tarefas li,
+.lista-historico li {
+    padding: 0.85rem;
+    background: var(--lcd-brilho);
+    border: var(--borda-fina) solid var(--lcd-fundo-escuro);
+    box-shadow: 2px 2px 0 var(--plastico-escuro);
+}
+
+.lista-tarefas li:hover:not(.lista-vazia) {
+    background: var(--lcd-fundo);
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0 var(--plastico-escuro);
+}
+
+.lista-vazia {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--lcd-pixel);
+    opacity: 0.7;
+    background: var(--plastico-medio) !important;
+    border-style: dashed !important;
+    box-shadow: none !important;
+}
+
+.tarefa-concluida {
+    opacity: 0.7;
+    border-left: var(--borda-grossa) solid var(--barra-energia) !important;
+}
+
+.tarefa-concluida strong {
+    text-decoration: line-through;
+    opacity: 0.65;
+}
+
+.tarefa-meta {
+    display: inline-block;
+    margin-top: 0.35rem;
+    margin-right: 0.35rem;
+    padding: 0.1rem 0.4rem;
+    font-family: var(--fonte-pixel);
+    font-size: 0.35rem;
+    line-height: 1.6;
+    border: 1px solid var(--lcd-fundo-escuro);
+    background: var(--lcd-fundo);
+    color: var(--lcd-pixel);
+}
+
+.tarefa-meta--trabalho { background: #b8d0e8; border-color: var(--retro-azul); }
+.tarefa-meta--lazer { background: #f0b8c8; border-color: var(--retro-rosa); }
+.tarefa-meta--saude { background: #b8d8a8; border-color: var(--barra-energia); }
+.tarefa-meta--estudo { background: #f0e0a0; border-color: var(--barra-satisfacao); }
+
+.tarefa-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.lista-tarefas small,
+.item-historico small {
+    font-size: 1.1rem;
+    color: var(--lcd-pixel);
+    opacity: 0.75;
+}
+
+.lista-tarefas strong,
+.item-historico strong {
+    font-family: var(--fonte-lcd);
+    font-size: 1.35rem;
+}
+
+/* ===== Resumo ===== */
+.resumo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.resumo-item {
+    padding: 0.6rem;
+    background: var(--lcd-fundo);
+    border: var(--borda-fina) solid var(--lcd-fundo-escuro);
+    text-align: center;
+    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.resumo-item span {
+    display: block;
+    font-family: var(--fonte-pixel);
+    font-size: 0.35rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: var(--lcd-pixel);
+    margin-bottom: 0.35rem;
+    line-height: 1.5;
+    opacity: 0.8;
+}
+
+.resumo-item strong {
+    font-family: var(--fonte-lcd);
+    font-size: 1.6rem;
+    color: var(--lcd-pixel);
+}
+
+.resumo-item--destaque {
+    grid-column: 1 / -1;
+    background: var(--lcd-brilho);
+    border-color: var(--retro-rosa);
+}
+
+.resumo-item--destaque strong {
+    font-size: 2rem;
+    color: var(--retro-rosa-escuro);
+}
+
+.texto-ajuda {
+    margin: 0 0 0.85rem;
+    font-size: 1.2rem;
+    color: var(--lcd-pixel);
+    opacity: 0.8;
+}
+
+/* ===== Histórico ===== */
+.item-historico .historico-estado {
+    display: inline-block;
+    margin: 0.3rem 0;
+    padding: 0.15rem 0.45rem;
+    font-family: var(--fonte-pixel);
+    font-size: 0.38rem;
+    line-height: 1.6;
+    border: 1px solid var(--retro-rosa);
+    background: #f0b8c8;
+    color: var(--retro-rosa-escuro);
+}
+
+/* ===== Responsivo ===== */
+@media (max-width: 900px) {
+    .grid-principal,
+    .grid-inferior {
+        grid-template-columns: 1fr;
+    }
+
+    .cartao-largo {
+        grid-column: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 1.2rem;
+    }
+
+    .cabecalho {
+        padding: 1.5rem 0.75rem 1rem;
+    }
+
+    .cartao {
+        padding: 1rem;
+    }
+
+    .resumo-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tarefa-acoes {
+        flex-direction: column;
+    }
+
+    .tarefa-acoes button {
+        width: 100%;
+    }
+
+    .cabecalho h1 {
+        font-size: 0.65rem;
+    }
+}
